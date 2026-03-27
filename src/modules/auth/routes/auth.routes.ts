@@ -1,11 +1,11 @@
 import { Router } from "express";
 
 import { AuthController } from "../controllers/auth.controller";
-import { InMemoryUserRepository } from "../repositories/in-memory-user.repository";
+import { SequelizeUserRepository } from "../repositories/sequelize-user.repository";
 import { LoginService } from "../services/login.service";
 
 const authRoutes = Router();
-const userRepository = new InMemoryUserRepository();
+const userRepository = new SequelizeUserRepository();
 const loginService = new LoginService(userRepository);
 const authController = new AuthController(loginService);
 

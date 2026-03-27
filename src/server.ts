@@ -6,9 +6,17 @@ const app = new App();
 
 const startServer = async (): Promise<void> => {
   try {
-    await database.connect();
+    const databaseConnected = await database.connect();
+
+    if (databaseConnected) {
+      await database.synchronize();
+    }
 
     app.server.listen(env.port, () => {
+      if (!databaseConnected) {
+        console.log("Server started without database connection.");
+      }
+
       console.log(`Server running on port ${env.port}.`);
     });
   } catch (error) {
