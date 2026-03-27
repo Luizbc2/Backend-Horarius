@@ -1,6 +1,7 @@
 import { LoginInput, LoginResponse } from "../auth.types";
 import { UserRepository } from "../repositories/user.repository";
 import { comparePassword } from "../utils/password.util";
+import { isValidEmail } from "../../../shared/utils/email.util";
 
 type ServiceResult<T> =
   | {
@@ -24,6 +25,14 @@ export class LoginService {
       return {
         success: false,
         message: "Email and password are required.",
+        statusCode: 400
+      };
+    }
+
+    if (!isValidEmail(email)) {
+      return {
+        success: false,
+        message: "Invalid email format.",
         statusCode: 400
       };
     }
