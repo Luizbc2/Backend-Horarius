@@ -8,18 +8,11 @@ export class UsersController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     try {
-      const {
-        name = "",
-        email = "",
-        cpf = "",
-        password = "",
-      } = request.body as Partial<CreateUserRequestDto>;
-
       const result = await this.createUserService.execute({
-        name,
-        email,
-        cpf,
-        password,
+        name: this.asString((request.body as Partial<CreateUserRequestDto>).name),
+        email: this.asString((request.body as Partial<CreateUserRequestDto>).email),
+        cpf: this.asString((request.body as Partial<CreateUserRequestDto>).cpf),
+        password: this.asString((request.body as Partial<CreateUserRequestDto>).password),
       });
 
       if (!result.success) {
@@ -36,5 +29,9 @@ export class UsersController {
         message: "Unable to process user registration right now.",
       });
     }
+  }
+
+  private asString(value: unknown): string {
+    return typeof value === "string" ? value : "";
   }
 }
