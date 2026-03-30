@@ -7,6 +7,7 @@ import { validatePasswordStrength } from "../../../shared/utils/password-strengt
 import { hashPassword } from "../../auth/utils/password.util";
 
 type UpdateUserProfileServiceInput = UpdateUserProfileInput & {
+  authenticatedUserId: number;
   userId: number;
 };
 
@@ -34,11 +35,19 @@ export class UpdateUserProfileService {
     const cpf = normalizeCpf(input.cpf);
     const password = input.password.trim();
 
-    if (!input.userId || !name || !cpf || !password) {
+    if (!input.authenticatedUserId || !input.userId || !name || !cpf || !password) {
       return {
         success: false,
-        message: "User id, name, CPF and password are required.",
+        message: "Authenticated user id, user id, name, CPF and password are required.",
         statusCode: 400,
+      };
+    }
+
+    if (input.authenticatedUserId !== input.userId) {
+      return {
+        success: false,
+        message: "You can only edit your own profile.",
+        statusCode: 403,
       };
     }
 
