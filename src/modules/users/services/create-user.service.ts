@@ -33,7 +33,7 @@ export class CreateUserService {
     if (!name || !email || !cpf || !password) {
       return {
         success: false,
-        message: "Name, email, CPF and password are required.",
+        message: "Nome, e-mail, CPF e senha são obrigatórios.",
         statusCode: 400,
       };
     }
@@ -41,7 +41,7 @@ export class CreateUserService {
     if (!isValidEmail(email)) {
       return {
         success: false,
-        message: "Invalid email format.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400,
       };
     }
@@ -49,7 +49,7 @@ export class CreateUserService {
     if (!isValidCpf(cpf)) {
       return {
         success: false,
-        message: "Invalid CPF.",
+        message: "CPF inválido.",
         statusCode: 400,
       };
     }
@@ -69,7 +69,7 @@ export class CreateUserService {
     if (existingUser) {
       return {
         success: false,
-        message: "Email is already in use.",
+        message: "E-mail já está em uso.",
         statusCode: 409,
       };
     }
@@ -79,7 +79,7 @@ export class CreateUserService {
     if (existingCpfUser) {
       return {
         success: false,
-        message: "CPF is already in use.",
+        message: "CPF já está em uso.",
         statusCode: 409,
       };
     }
@@ -95,7 +95,7 @@ export class CreateUserService {
       return {
         success: true,
         data: {
-          message: "User registered successfully.",
+          message: "Usuário cadastrado com sucesso.",
           user: this.toPublicUser(createdUser),
         },
       };
@@ -111,7 +111,7 @@ export class CreateUserService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Invalid user data.",
+          message: "Dados de usuário inválidos.",
           statusCode: 400,
         };
       }
@@ -133,13 +133,13 @@ export class CreateUserService {
     const fields = error.errors.map((item) => item.path);
 
     if (fields.includes("email")) {
-      return "Email is already in use.";
+      return "E-mail já está em uso.";
     }
 
     if (fields.includes("cpf")) {
-      return "CPF is already in use.";
+      return "CPF já está em uso.";
     }
 
-    return "User data conflicts with an existing record.";
+    return "Os dados do usuário entram em conflito com um registro existente.";
   }
 }

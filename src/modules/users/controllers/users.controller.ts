@@ -31,7 +31,7 @@ export class UsersController {
       console.error("User registration request failed.", error);
 
       return response.status(500).json({
-        message: "Unable to process user registration right now.",
+        message: "Não foi possível processar o cadastro de usuário agora.",
       });
     }
   }
@@ -42,7 +42,7 @@ export class UsersController {
 
       if (!authenticatedUserId) {
         return response.status(401).json({
-          message: "Authenticated user was not identified.",
+          message: "Usuário autenticado não identificado.",
         });
       }
 
@@ -66,7 +66,7 @@ export class UsersController {
       console.error("User profile update request failed.", error);
 
       return response.status(500).json({
-        message: "Unable to process profile update right now.",
+        message: "Não foi possível processar a atualização do perfil agora.",
       });
     }
   }

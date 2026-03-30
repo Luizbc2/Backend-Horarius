@@ -23,7 +23,7 @@ export const authenticate = (request: Request, response: Response, next: NextFun
 
   if (!token) {
     return response.status(401).json({
-      message: "Authorization token is required.",
+      message: "O token de autenticação é obrigatório.",
     });
   }
 
@@ -34,7 +34,7 @@ export const authenticate = (request: Request, response: Response, next: NextFun
     return next();
   } catch {
     return response.status(401).json({
-      message: "Invalid or expired token.",
+      message: "Token inválido ou expirado.",
     });
   }
 };

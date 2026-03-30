@@ -25,7 +25,7 @@ export class LoginService {
     if (!email || !password) {
       return {
         success: false,
-        message: "Email and password are required.",
+        message: "E-mail e senha são obrigatórios.",
         statusCode: 400
       };
     }
@@ -33,7 +33,7 @@ export class LoginService {
     if (!isValidEmail(email)) {
       return {
         success: false,
-        message: "Invalid email format.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400
       };
     }
@@ -45,7 +45,7 @@ export class LoginService {
     } catch {
       return {
         success: false,
-        message: "Authentication service is unavailable right now.",
+        message: "O serviço de autenticação está indisponível no momento.",
         statusCode: 503
       };
     }
@@ -53,7 +53,7 @@ export class LoginService {
     if (!user) {
       return {
         success: false,
-        message: "Invalid email or password.",
+        message: "E-mail ou senha inválidos.",
         statusCode: 401
       };
     }
@@ -63,7 +63,7 @@ export class LoginService {
     if (!passwordMatches) {
       return {
         success: false,
-        message: "Invalid email or password.",
+        message: "E-mail ou senha inválidos.",
         statusCode: 401
       };
     }
@@ -71,7 +71,7 @@ export class LoginService {
     return {
       success: true,
       data: {
-        message: "Login successful.",
+        message: "Login realizado com sucesso.",
         token: generateAccessToken(user),
         user: {
           id: user.id,
