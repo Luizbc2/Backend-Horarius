@@ -1,7 +1,7 @@
 import { CreateUserInputDto } from "../../users/dtos/create-user.dto";
 import { AuthenticatedUser } from "../auth.types";
 import { UserModel } from "../models/user.model";
-import { UserRepository } from "./user.repository";
+import { UpdateUserProfileInput, UserRepository } from "./user.repository";
 
 export class SequelizeUserRepository implements UserRepository {
   public async findById(id: number): Promise<AuthenticatedUser | null> {
@@ -49,6 +49,22 @@ export class SequelizeUserRepository implements UserRepository {
       cpf: input.cpf,
       password: input.password
     });
+
+    return this.toAuthenticatedUser(user);
+  }
+
+  public async updateProfile(id: number, input: UpdateUserProfileInput): Promise<AuthenticatedUser | null> {
+    const user = await UserModel.findByPk(id);
+
+    if (!user) {
+      return null;
+    }
+
+    user.name = input.name;
+    user.cpf = input.cpf;
+    user.password = input.password;
+
+    await user.save();
 
     return this.toAuthenticatedUser(user);
   }
