@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 
 import { env } from "./env";
 import { UserModel } from "../modules/auth/models/user.model";
+import { ClientModel } from "../modules/clients/models/client.model";
 import { hashPassword, isPasswordHashed } from "../modules/auth/utils/password.util";
 
 class Database {
@@ -33,6 +34,7 @@ class Database {
     }
 
     UserModel.initialize(this.getConnection());
+    ClientModel.initialize(this.getConnection());
     this.modelsInitialized = true;
   }
 
