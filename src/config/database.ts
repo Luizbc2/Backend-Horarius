@@ -41,6 +41,33 @@ class Database {
     ServiceModel.initialize(this.getConnection());
     ProfessionalModel.initialize(this.getConnection());
     AppointmentModel.initialize(this.getConnection());
+
+    ClientModel.hasMany(AppointmentModel, {
+      foreignKey: "clientId",
+      as: "appointments",
+    });
+    ProfessionalModel.hasMany(AppointmentModel, {
+      foreignKey: "professionalId",
+      as: "appointments",
+    });
+    ServiceModel.hasMany(AppointmentModel, {
+      foreignKey: "serviceId",
+      as: "appointments",
+    });
+
+    AppointmentModel.belongsTo(ClientModel, {
+      foreignKey: "clientId",
+      as: "client",
+    });
+    AppointmentModel.belongsTo(ProfessionalModel, {
+      foreignKey: "professionalId",
+      as: "professional",
+    });
+    AppointmentModel.belongsTo(ServiceModel, {
+      foreignKey: "serviceId",
+      as: "service",
+    });
+
     this.modelsInitialized = true;
   }
 
