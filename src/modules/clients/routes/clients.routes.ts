@@ -8,6 +8,7 @@ const clientsController = new ClientsController();
 
 clientsRoutes.use(authenticate);
 
+clientsRoutes.get("/:id", (request, response) => clientsController.getById(request, response));
 clientsRoutes.get("/", (request, response) => clientsController.list(request, response));
 clientsRoutes.post("/", (request, response) => clientsController.create(request, response));
 clientsRoutes.put("/:id", (request, response) => clientsController.update(request, response));

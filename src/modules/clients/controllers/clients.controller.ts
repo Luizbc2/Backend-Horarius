@@ -4,12 +4,27 @@ import { ListClientsQueryDto } from "../dtos/client.dto";
 import { SequelizeClientRepository } from "../repositories/sequelize-client.repository";
 import { CreateClientService } from "../services/create-client.service";
 import { DeleteClientService } from "../services/delete-client.service";
+import { GetClientService } from "../services/get-client.service";
 import { ListClientsService } from "../services/list-clients.service";
 import { UpdateClientService } from "../services/update-client.service";
 
 const clientRepository = new SequelizeClientRepository();
 
 export class ClientsController {
+  public async getById(request: Request, response: Response): Promise<Response> {
+    const getClientService = new GetClientService(clientRepository);
+    const id = Number(request.params.id);
+    const result = await getClientService.execute(id);
+
+    if (!result.success) {
+      return response.status(result.statusCode).json({
+        message: result.message,
+      });
+    }
+
+    return response.status(200).json(result.data);
+  }
+
   public async list(request: Request, response: Response): Promise<Response> {
     const listClientsService = new ListClientsService(clientRepository);
     const query: ListClientsQueryDto = {
