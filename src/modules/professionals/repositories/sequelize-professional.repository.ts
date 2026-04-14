@@ -2,10 +2,13 @@ import { Op } from "sequelize";
 
 import {
   CreateProfessionalRequestDto,
+  ProfessionalWorkDayDto,
+  ProfessionalWorkDayInputDto,
   ProfessionalDto,
   UpdateProfessionalRequestDto,
 } from "../dtos/professional.dto";
 import { ProfessionalModel } from "../models/professional.model";
+import { ProfessionalWorkDayModel } from "../models/professional-work-day.model";
 import { ListProfessionalsRepositoryResult, ProfessionalRepository } from "./professional.repository";
 
 type ListProfessionalsInput = {
@@ -23,6 +26,23 @@ export class SequelizeProfessionalRepository implements ProfessionalRepository {
     }
 
     return this.toProfessionalDto(professional);
+  }
+
+  public async findWorkDaysByProfessionalId(professionalId: number): Promise<ProfessionalWorkDayDto[] | null> {
+    const professional = await ProfessionalModel.findByPk(professionalId);
+
+    if (!professional) {
+      return null;
+    }
+
+    const workDays = await ProfessionalWorkDayModel.findAll({
+      where: {
+        professionalId,
+      },
+      order: [["id", "ASC"]],
+    });
+
+    return workDays.map((workDay) => this.toProfessionalWorkDayDto(workDay));
   }
 
   public async list(query: ListProfessionalsInput): Promise<ListProfessionalsRepositoryResult> {
@@ -103,6 +123,60 @@ export class SequelizeProfessionalRepository implements ProfessionalRepository {
     return this.toProfessionalDto(professional);
   }
 
+  public async replaceWorkDays(
+    professionalId: number,
+    workDays: ProfessionalWorkDayInputDto[],
+  ): Promise<ProfessionalWorkDayDto[] | null> {
+    const professional = await ProfessionalModel.findByPk(professionalId);
+
+    if (!professional) {
+      return null;
+    }
+
+    const sequelize = ProfessionalModel.sequelize;
+
+    if (!sequelize) {
+      throw new Error("Professional model is not connected to Sequelize.");
+    }
+
+    await sequelize.transaction(async (transaction) => {
+      await ProfessionalWorkDayModel.destroy({
+        where: {
+          professionalId,
+        },
+        transaction,
+      });
+
+      if (workDays.length === 0) {
+        return;
+      }
+
+      await ProfessionalWorkDayModel.bulkCreate(
+        workDays.map((workDay) => ({
+          professionalId,
+          dayOfWeek: workDay.dayOfWeek,
+          enabled: workDay.enabled,
+          startTime: workDay.startTime,
+          endTime: workDay.endTime,
+          breakStart: workDay.breakStart ?? null,
+          breakEnd: workDay.breakEnd ?? null,
+        })),
+        {
+          transaction,
+        },
+      );
+    });
+
+    const savedWorkDays = await ProfessionalWorkDayModel.findAll({
+      where: {
+        professionalId,
+      },
+      order: [["id", "ASC"]],
+    });
+
+    return savedWorkDays.map((workDay) => this.toProfessionalWorkDayDto(workDay));
+  }
+
   public async delete(id: number): Promise<boolean> {
     const deletedCount = await ProfessionalModel.destroy({
       where: {
@@ -121,6 +195,19 @@ export class SequelizeProfessionalRepository implements ProfessionalRepository {
       phone: professional.phone,
       specialty: professional.specialty,
       status: professional.status,
+    };
+  }
+
+  private toProfessionalWorkDayDto(workDay: ProfessionalWorkDayModel): ProfessionalWorkDayDto {
+    return {
+      id: workDay.id,
+      professionalId: workDay.professionalId,
+      dayOfWeek: workDay.dayOfWeek,
+      enabled: workDay.enabled,
+      startTime: workDay.startTime,
+      endTime: workDay.endTime,
+      breakStart: workDay.breakStart,
+      breakEnd: workDay.breakEnd,
     };
   }
 }
