@@ -13,18 +13,10 @@ export class UsersController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     try {
-      const body = asRequestBody(request.body as object | null | undefined);
-      const result = await this.createUserService.execute({
-        name: asString(body.name),
-        email: asString(body.email),
-        cpf: asString(body.cpf),
-        password: asString(body.password),
-      });
+      const result = await this.createUserService.execute(this.buildCreatePayload(request));
 
       if (!result.success) {
-        return response.status(result.statusCode).json({
-          message: result.message,
-        });
+        return this.sendFailure(response, result.statusCode, result.message);
       }
 
       return response.status(201).json(result.data);
@@ -39,28 +31,18 @@ export class UsersController {
 
   public async updateMe(request: Request, response: Response): Promise<Response> {
     try {
-      const body = asRequestBody(request.body as object | null | undefined);
       const authenticatedUserId = getAuthenticatedUserId(request);
 
       if (!authenticatedUserId) {
-        return response.status(401).json({
-          message: "Usuario autenticado nao identificado.",
-        });
+        return this.sendFailure(response, 401, "Usuario autenticado nao identificado.");
       }
 
-      const result = await this.updateUserProfileService.execute({
-        authenticatedUserId,
-        userId: authenticatedUserId,
-        name: asString(body.name),
-        email: asString(body.email),
-        cpf: asString(body.cpf),
-        password: asString(body.password),
-      });
+      const result = await this.updateUserProfileService.execute(
+        this.buildUpdatePayload(request, authenticatedUserId),
+      );
 
       if (!result.success) {
-        return response.status(result.statusCode).json({
-          message: result.message,
-        });
+        return this.sendFailure(response, result.statusCode, result.message);
       }
 
       return response.status(200).json(result.data);
@@ -71,6 +53,34 @@ export class UsersController {
         message: "Nao foi possivel processar a atualizacao do perfil agora.",
       });
     }
+  }
+
+  private buildCreatePayload(request: Request) {
+    const body = asRequestBody(request.body);
+
+    return {
+      name: asString(body.name),
+      email: asString(body.email),
+      cpf: asString(body.cpf),
+      password: asString(body.password),
+    };
+  }
+
+  private buildUpdatePayload(request: Request, authenticatedUserId: number) {
+    const body = asRequestBody(request.body);
+
+    return {
+      authenticatedUserId,
+      userId: authenticatedUserId,
+      name: asString(body.name),
+      email: asString(body.email),
+      cpf: asString(body.cpf),
+      password: asString(body.password),
+    };
+  }
+
+  private sendFailure(response: Response, statusCode: number, message: string): Response {
+    return response.status(statusCode).json({ message });
   }
 }
 

@@ -18,9 +18,7 @@ export class ClientsController {
     const result = await getClientService.execute(id);
 
     if (!result.success) {
-      return response.status(result.statusCode).json({
-        message: result.message,
-      });
+      return this.sendFailure(response, result.statusCode, result.message);
     }
 
     return response.status(200).json(result.data);
@@ -41,19 +39,10 @@ export class ClientsController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const createClientService = new CreateClientService(clientRepository);
-    const body = asRequestBody(request.body);
-    const result = await createClientService.execute({
-      name: asString(body.name),
-      email: asString(body.email),
-      phone: asString(body.phone),
-      cpf: asString(body.cpf),
-      notes: asString(body.notes),
-    });
+    const result = await createClientService.execute(this.buildClientPayload(request));
 
     if (!result.success) {
-      return response.status(result.statusCode).json({
-        message: result.message,
-      });
+      return this.sendFailure(response, result.statusCode, result.message);
     }
 
     return response.status(201).json(result.data);
@@ -61,20 +50,11 @@ export class ClientsController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const updateClientService = new UpdateClientService(clientRepository);
-    const body = asRequestBody(request.body);
     const id = Number(request.params.id);
-    const result = await updateClientService.execute(id, {
-      name: asString(body.name),
-      email: asString(body.email),
-      phone: asString(body.phone),
-      cpf: asString(body.cpf),
-      notes: asString(body.notes),
-    });
+    const result = await updateClientService.execute(id, this.buildClientPayload(request));
 
     if (!result.success) {
-      return response.status(result.statusCode).json({
-        message: result.message,
-      });
+      return this.sendFailure(response, result.statusCode, result.message);
     }
 
     return response.status(200).json(result.data);
@@ -86,11 +66,25 @@ export class ClientsController {
     const result = await deleteClientService.execute(id);
 
     if (!result.success) {
-      return response.status(result.statusCode).json({
-        message: result.message,
-      });
+      return this.sendFailure(response, result.statusCode, result.message);
     }
 
     return response.status(200).json(result.data);
+  }
+
+  private buildClientPayload(request: Request) {
+    const body = asRequestBody(request.body);
+
+    return {
+      name: asString(body.name),
+      email: asString(body.email),
+      phone: asString(body.phone),
+      cpf: asString(body.cpf),
+      notes: asString(body.notes),
+    };
+  }
+
+  private sendFailure(response: Response, statusCode: number, message: string): Response {
+    return response.status(statusCode).json({ message });
   }
 }
