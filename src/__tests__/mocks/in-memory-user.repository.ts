@@ -1,6 +1,6 @@
-import { CreateUserInputDto } from "../../modules/users/dtos/create-user.dto";
 import { AuthenticatedUser } from "../../modules/auth/auth.types";
 import { UpdateUserProfileInput, UserRepository } from "../../modules/auth/repositories/user.repository";
+import { CreateUserInputDto } from "../../modules/users/dtos/create-user.dto";
 
 type InMemoryUserRepositoryOptions = {
   users?: AuthenticatedUser[];
