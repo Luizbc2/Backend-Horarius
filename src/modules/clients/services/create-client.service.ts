@@ -33,7 +33,7 @@ export class CreateClientService {
     if (!name) {
       return {
         success: false,
-        message: "Nome do cliente é obrigatório.",
+        message: "Nome do cliente e obrigatorio.",
         statusCode: 400
       };
     }
@@ -41,7 +41,7 @@ export class CreateClientService {
     if (email && !isValidEmail(email)) {
       return {
         success: false,
-        message: "Formato de e-mail inválido.",
+        message: "Formato de e-mail invalido.",
         statusCode: 400
       };
     }
@@ -66,7 +66,7 @@ export class CreateClientService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Dados de cliente inválidos.",
+          message: "Dados de cliente invalidos.",
           statusCode: 400
         };
       }
@@ -75,4 +75,3 @@ export class CreateClientService {
     }
   }
 }
-

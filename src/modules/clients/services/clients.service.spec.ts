@@ -40,7 +40,7 @@ test("CreateClientService rejects invalid email", async () => {
 
   expect(result).toEqual({
     success: false,
-    message: "Formato de e-mail inválido.",
+    message: "Formato de e-mail invalido.",
     statusCode: 400,
   });
 });
