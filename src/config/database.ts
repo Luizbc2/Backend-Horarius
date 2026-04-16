@@ -122,7 +122,7 @@ class Database {
       return true;
     } catch (error) {
       console.log("Database connection failed. Backend will keep running without database access for now.");
-      console.log(error instanceof Error ? error.message : "Unknown database connection error.");
+      console.log(error instanceof Error ? error.message : "Database connection error not identified.");
       return false;
     }
   }

@@ -70,7 +70,7 @@ test("CreateUserService rejects weak password", async () => {
 
   assert.deepEqual(result, {
     success: false,
-    message: "Password must be at least 8 characters long.",
+    message: "A senha deve ter pelo menos 8 caracteres.",
     statusCode: 400,
   });
 });
