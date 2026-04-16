@@ -1,4 +1,4 @@
-import { CreateUserService } from "../../modules/users/services/create-user.service";
+﻿import { CreateUserService } from "../../modules/users/services/create-user.service";
 import { isPasswordHashed } from "../../modules/auth/utils/password.util";
 import { InMemoryUserRepository } from "../mocks/in-memory-user.repository";
 
@@ -15,7 +15,7 @@ describe("CreateUserService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "Nome, e-mail, CPF e senha sao obrigatorios.",
+      message: "Nome, e-mail, CPF e senha são obrigatórios.",
       statusCode: 400,
     });
   });
@@ -32,7 +32,7 @@ describe("CreateUserService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "CPF invalido.",
+      message: "CPF inválido.",
       statusCode: 400,
     });
   });
@@ -54,7 +54,7 @@ describe("CreateUserService", () => {
     });
   });
 
-  it("nao deixa cadastrar dois usuarios com o mesmo e-mail", async () => {
+  it("não deixa cadastrar dois usuários com o mesmo e-mail", async () => {
     const repository = new InMemoryUserRepository({
       users: [
         {
@@ -77,7 +77,7 @@ describe("CreateUserService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "E-mail ja esta em uso.",
+      message: "E-mail já está em uso.",
       statusCode: 409,
     });
   });
@@ -110,3 +110,4 @@ describe("CreateUserService", () => {
     expect(isPasswordHashed(repository.lastCreatedInput?.password ?? "")).toBe(true);
   });
 });
+

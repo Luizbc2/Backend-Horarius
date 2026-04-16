@@ -1,4 +1,4 @@
-import { ValidationError } from "sequelize";
+﻿import { ValidationError } from "sequelize";
 
 import {
   ProfessionalWorkDayDto,
@@ -44,7 +44,7 @@ export class UpdateProfessionalWorkDaysService {
     if (!professionalId) {
       return {
         success: false,
-        message: "Id do profissional e obrigatorio.",
+        message: "Id do profissional é obrigatório.",
         statusCode: 400,
       };
     }
@@ -52,7 +52,7 @@ export class UpdateProfessionalWorkDaysService {
     if (!Array.isArray(input.workDays)) {
       return {
         success: false,
-        message: "A lista de horarios do profissional e obrigatoria.",
+        message: "A lista de horários do profissional é obrigatória.",
         statusCode: 400,
       };
     }
@@ -77,7 +77,7 @@ export class UpdateProfessionalWorkDaysService {
       if (workDays === null) {
         return {
           success: false,
-          message: "Profissional nao encontrado.",
+          message: "Profissional não encontrado.",
           statusCode: 404,
         };
       }
@@ -93,7 +93,7 @@ export class UpdateProfessionalWorkDaysService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Dados dos horarios do profissional sao invalidos.",
+          message: "Dados dos horários do profissional são inválidos.",
           statusCode: 400,
         };
       }
@@ -176,3 +176,4 @@ export class UpdateProfessionalWorkDaysService {
     return hours * 60 + minutes;
   }
 }
+

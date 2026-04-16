@@ -1,4 +1,4 @@
-import request from "supertest";
+﻿import request from "supertest";
 
 import { App } from "../../app";
 
@@ -31,18 +31,19 @@ describe("Protected routes", () => {
 
     expect(response.status).toBe(401);
     expect(response.body).toEqual({
-      message: "O token de autenticacao e obrigatorio.",
+      message: "O token de autenticação é obrigatório.",
     });
   });
 
-  it("bloqueia token invalido", async () => {
+  it("bloqueia token inválido", async () => {
     const response = await request(new App().server)
       .get("/api/clients")
       .set("Authorization", "Bearer token-invalido");
 
     expect(response.status).toBe(401);
     expect(response.body).toEqual({
-      message: "Token invalido ou expirado.",
+      message: "Token inválido ou expirado.",
     });
   });
 });
+

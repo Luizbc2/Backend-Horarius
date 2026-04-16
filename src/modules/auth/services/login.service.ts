@@ -1,4 +1,4 @@
-import { LoginInput, LoginResponse } from "../auth.types";
+﻿import { LoginInput, LoginResponse } from "../auth.types";
 import { UserRepository } from "../repositories/user.repository";
 import { comparePassword } from "../utils/password.util";
 import { generateAccessToken } from "../utils/jwt.util";
@@ -26,7 +26,7 @@ export class LoginService {
     if (!email || !password) {
       return {
         success: false,
-        message: "E-mail e senha sao obrigatorios.",
+        message: "E-mail e senha são obrigatórios.",
         statusCode: 400,
       };
     }
@@ -34,7 +34,7 @@ export class LoginService {
     if (!isValidEmail(email)) {
       return {
         success: false,
-        message: "Formato de e-mail invalido.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400,
       };
     }
@@ -42,7 +42,7 @@ export class LoginService {
     if (email.length > INPUT_LIMITS.email) {
       return {
         success: false,
-        message: "Formato de e-mail invalido.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400,
       };
     }
@@ -62,7 +62,7 @@ export class LoginService {
     } catch {
       return {
         success: false,
-        message: "O servico de autenticacao esta indisponivel no momento.",
+        message: "O serviço de autenticação está indisponível no momento.",
         statusCode: 503,
       };
     }
@@ -70,7 +70,7 @@ export class LoginService {
     if (!user) {
       return {
         success: false,
-        message: "E-mail ou senha invalidos.",
+        message: "E-mail ou senha inválidos.",
         statusCode: 401,
       };
     }
@@ -80,7 +80,7 @@ export class LoginService {
     if (!passwordMatches) {
       return {
         success: false,
-        message: "E-mail ou senha invalidos.",
+        message: "E-mail ou senha inválidos.",
         statusCode: 401,
       };
     }
@@ -100,3 +100,4 @@ export class LoginService {
     };
   }
 }
+

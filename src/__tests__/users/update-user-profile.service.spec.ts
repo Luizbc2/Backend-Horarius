@@ -1,9 +1,9 @@
-import { UpdateUserProfileService } from "../../modules/users/services/update-user-profile.service";
+﻿import { UpdateUserProfileService } from "../../modules/users/services/update-user-profile.service";
 import { comparePassword } from "../../modules/auth/utils/password.util";
 import { InMemoryUserRepository } from "../mocks/in-memory-user.repository";
 
 describe("UpdateUserProfileService", () => {
-  it("exige os campos obrigatorios para editar o perfil", async () => {
+  it("exige os campos obrigatórios para editar o perfil", async () => {
     const service = new UpdateUserProfileService(new InMemoryUserRepository());
 
     const result = await service.execute({
@@ -17,7 +17,7 @@ describe("UpdateUserProfileService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "Id do usuario autenticado, id do usuario, nome, CPF e senha sao obrigatorios.",
+      message: "Id do usuário autenticado, id do usuário, nome, CPF e senha são obrigatórios.",
       statusCode: 400,
     });
   });
@@ -47,12 +47,12 @@ describe("UpdateUserProfileService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "Voce so pode editar o proprio perfil.",
+      message: "Você só pode editar o próprio perfil.",
       statusCode: 403,
     });
   });
 
-  it("nao permite alterar o e-mail", async () => {
+  it("não permite alterar o e-mail", async () => {
     const repository = new InMemoryUserRepository({
       users: [
         {
@@ -77,7 +77,7 @@ describe("UpdateUserProfileService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "O e-mail nao pode ser alterado.",
+      message: "O e-mail não pode ser alterado.",
       statusCode: 400,
     });
   });
@@ -107,7 +107,7 @@ describe("UpdateUserProfileService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "CPF invalido.",
+      message: "CPF inválido.",
       statusCode: 400,
     });
   });
@@ -150,3 +150,4 @@ describe("UpdateUserProfileService", () => {
     await expect(comparePassword("Senha123", repository.lastUpdatedInput?.password ?? "")).resolves.toBe(true);
   });
 });
+

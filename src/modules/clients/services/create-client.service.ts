@@ -1,4 +1,4 @@
-import { ValidationError } from "sequelize";
+﻿import { ValidationError } from "sequelize";
 
 import { isValidCpf, normalizeCpf } from "../../../shared/utils/cpf.util";
 import { isValidEmail } from "../../../shared/utils/email.util";
@@ -42,7 +42,7 @@ export class CreateClientService {
     if (!name) {
       return {
         success: false,
-        message: "Nome do cliente e obrigatorio.",
+        message: "Nome do cliente é obrigatório.",
         statusCode: 400
       };
     }
@@ -55,26 +55,18 @@ export class CreateClientService {
       };
     }
 
-    if (!email) {
+    if (email && (email.length > INPUT_LIMITS.email || !isValidEmail(email))) {
       return {
         success: false,
-        message: "E-mail do cliente e obrigatorio.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400
       };
     }
 
-    if (email.length > INPUT_LIMITS.email || !isValidEmail(email)) {
+    if (phone && !isValidPhone(phone)) {
       return {
         success: false,
-        message: "Formato de e-mail invalido.",
-        statusCode: 400
-      };
-    }
-
-    if (!isValidPhone(phone)) {
-      return {
-        success: false,
-        message: "Telefone do cliente invalido.",
+        message: "Telefone do cliente inválido.",
         statusCode: 400
       };
     }
@@ -82,15 +74,15 @@ export class CreateClientService {
     if (cpf && !isValidCpf(cpf)) {
       return {
         success: false,
-        message: "CPF do cliente invalido.",
+        message: "CPF do cliente inválido.",
         statusCode: 400
       };
     }
 
-    if (input.notes && !hasTextLengthBetween(notes, 3, INPUT_LIMITS.notes)) {
+    if (notes && !hasTextLengthBetween(notes, 3, INPUT_LIMITS.notes)) {
       return {
         success: false,
-        message: "As observacoes do cliente devem ter entre 3 e 500 caracteres.",
+        message: "As observações do cliente devem ter entre 3 e 500 caracteres.",
         statusCode: 400
       };
     }
@@ -115,7 +107,7 @@ export class CreateClientService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Dados de cliente invalidos.",
+          message: "Dados de cliente inválidos.",
           statusCode: 400
         };
       }
@@ -124,3 +116,4 @@ export class CreateClientService {
     }
   }
 }
+

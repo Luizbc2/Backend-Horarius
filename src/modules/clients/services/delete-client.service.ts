@@ -1,4 +1,4 @@
-import { ClientRepository } from "../repositories/client.repository";
+﻿import { ClientRepository } from "../repositories/client.repository";
 
 type DeleteClientResponseDto = {
   message: string;
@@ -22,7 +22,7 @@ export class DeleteClientService {
     if (!id) {
       return {
         success: false,
-        message: "Id do cliente e obrigatorio.",
+        message: "Id do cliente é obrigatório.",
         statusCode: 400
       };
     }
@@ -32,7 +32,7 @@ export class DeleteClientService {
     if (!deleted) {
       return {
         success: false,
-        message: "Cliente nao encontrado.",
+        message: "Cliente não encontrado.",
         statusCode: 404
       };
     }
@@ -45,4 +45,5 @@ export class DeleteClientService {
     };
   }
 }
+
 

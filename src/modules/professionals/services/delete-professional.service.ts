@@ -1,4 +1,4 @@
-import { ProfessionalRepository } from "../repositories/professional.repository";
+﻿import { ProfessionalRepository } from "../repositories/professional.repository";
 
 type DeleteProfessionalResponseDto = {
   message: string;
@@ -22,7 +22,7 @@ export class DeleteProfessionalService {
     if (!id) {
       return {
         success: false,
-        message: "Id do profissional e obrigatorio.",
+        message: "Id do profissional é obrigatório.",
         statusCode: 400,
       };
     }
@@ -32,7 +32,7 @@ export class DeleteProfessionalService {
     if (!deleted) {
       return {
         success: false,
-        message: "Profissional nao encontrado.",
+        message: "Profissional não encontrado.",
         statusCode: 404,
       };
     }
@@ -45,3 +45,4 @@ export class DeleteProfessionalService {
     };
   }
 }
+

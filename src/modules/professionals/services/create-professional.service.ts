@@ -1,4 +1,4 @@
-import { ValidationError } from "sequelize";
+﻿import { ValidationError } from "sequelize";
 
 import { isValidEmail } from "../../../shared/utils/email.util";
 import {
@@ -40,7 +40,7 @@ export class CreateProfessionalService {
     if (!name || !email || !phone || !specialty || !status) {
       return {
         success: false,
-        message: "Nome, email, telefone, especialidade e status sao obrigatorios.",
+        message: "Nome, e-mail, telefone, especialidade e status são obrigatórios.",
         statusCode: 400,
       };
     }
@@ -48,7 +48,7 @@ export class CreateProfessionalService {
     if (!isValidEmail(email)) {
       return {
         success: false,
-        message: "Formato de email invalido.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400,
       };
     }
@@ -64,7 +64,7 @@ export class CreateProfessionalService {
     if (email.length > INPUT_LIMITS.email) {
       return {
         success: false,
-        message: "Formato de email invalido.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400,
       };
     }
@@ -72,7 +72,7 @@ export class CreateProfessionalService {
     if (!isValidPhone(phone)) {
       return {
         success: false,
-        message: "Telefone do profissional invalido.",
+        message: "Telefone do profissional inválido.",
         statusCode: 400,
       };
     }
@@ -88,7 +88,7 @@ export class CreateProfessionalService {
     if (!["ativo", "ferias"].includes(status)) {
       return {
         success: false,
-        message: "Status do profissional invalido.",
+        message: "Status do profissional inválido.",
         statusCode: 400,
       };
     }
@@ -113,7 +113,7 @@ export class CreateProfessionalService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Dados do profissional sao invalidos.",
+          message: "Dados do profissional são inválidos.",
           statusCode: 400,
         };
       }
@@ -122,3 +122,4 @@ export class CreateProfessionalService {
     }
   }
 }
+

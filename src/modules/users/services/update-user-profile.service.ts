@@ -1,4 +1,4 @@
-import { UniqueConstraintError, ValidationError } from "sequelize";
+﻿import { UniqueConstraintError, ValidationError } from "sequelize";
 
 import { PublicUserDto } from "../dtos/create-user.dto";
 import { UpdateUserProfileInput, UserRepository } from "../../auth/repositories/user.repository";
@@ -40,7 +40,7 @@ export class UpdateUserProfileService {
     if (!input.authenticatedUserId || !input.userId || !name || !cpf || !password) {
       return {
         success: false,
-        message: "Id do usuario autenticado, id do usuario, nome, CPF e senha sao obrigatorios.",
+        message: "Id do usuário autenticado, id do usuário, nome, CPF e senha são obrigatórios.",
         statusCode: 400,
       };
     }
@@ -48,7 +48,7 @@ export class UpdateUserProfileService {
     if (input.authenticatedUserId !== input.userId) {
       return {
         success: false,
-        message: "Voce so pode editar o proprio perfil.",
+        message: "Você só pode editar o próprio perfil.",
         statusCode: 403,
       };
     }
@@ -58,7 +58,7 @@ export class UpdateUserProfileService {
     if (!user) {
       return {
         success: false,
-        message: "Usuario nao encontrado.",
+        message: "Usuário não encontrado.",
         statusCode: 404,
       };
     }
@@ -66,7 +66,7 @@ export class UpdateUserProfileService {
     if (input.email && input.email.trim().toLowerCase() !== user.email.toLowerCase()) {
       return {
         success: false,
-        message: "O e-mail nao pode ser alterado.",
+        message: "O e-mail não pode ser alterado.",
         statusCode: 400,
       };
     }
@@ -74,7 +74,7 @@ export class UpdateUserProfileService {
     if (!hasTextLengthBetween(name, 2, INPUT_LIMITS.name)) {
       return {
         success: false,
-        message: "O nome do usuario deve ter entre 2 e 120 caracteres.",
+        message: "O nome do usuário deve ter entre 2 e 120 caracteres.",
         statusCode: 400,
       };
     }
@@ -82,7 +82,7 @@ export class UpdateUserProfileService {
     if (!isValidCpf(cpf)) {
       return {
         success: false,
-        message: "CPF invalido.",
+        message: "CPF inválido.",
         statusCode: 400,
       };
     }
@@ -110,7 +110,7 @@ export class UpdateUserProfileService {
     if (existingCpfUser && existingCpfUser.id !== input.userId) {
       return {
         success: false,
-        message: "CPF ja esta em uso.",
+        message: "CPF já está em uso.",
         statusCode: 409,
       };
     }
@@ -125,7 +125,7 @@ export class UpdateUserProfileService {
       if (!updatedUser) {
         return {
           success: false,
-          message: "Usuario nao encontrado.",
+          message: "Usuário não encontrado.",
           statusCode: 404,
         };
       }
@@ -149,7 +149,7 @@ export class UpdateUserProfileService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Dados de usuario invalidos.",
+          message: "Dados de usuário inválidos.",
           statusCode: 400,
         };
       }
@@ -171,11 +171,12 @@ export class UpdateUserProfileService {
     const fields = error.errors.map((item) => item.path);
 
     if (fields.includes("cpf")) {
-      return "CPF ja esta em uso.";
+      return "CPF já está em uso.";
     }
 
     return "Os dados do usuario entram em conflito com um registro existente.";
   }
 }
+
 
 

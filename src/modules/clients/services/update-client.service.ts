@@ -1,4 +1,4 @@
-import { ValidationError } from "sequelize";
+﻿import { ValidationError } from "sequelize";
 
 import { isValidCpf, normalizeCpf } from "../../../shared/utils/cpf.util";
 import { isValidEmail } from "../../../shared/utils/email.util";
@@ -42,7 +42,7 @@ export class UpdateClientService {
     if (!id || !name || !email || !phone) {
       return {
         success: false,
-        message: "Id, nome, e-mail e telefone sao obrigatorios.",
+        message: "Id, nome, e-mail e telefone são obrigatórios.",
         statusCode: 400
       };
     }
@@ -50,7 +50,7 @@ export class UpdateClientService {
     if (!isValidEmail(email)) {
       return {
         success: false,
-        message: "Formato de e-mail invalido.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400
       };
     }
@@ -66,7 +66,7 @@ export class UpdateClientService {
     if (email.length > INPUT_LIMITS.email) {
       return {
         success: false,
-        message: "Formato de e-mail invalido.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400
       };
     }
@@ -74,7 +74,7 @@ export class UpdateClientService {
     if (!isValidPhone(phone)) {
       return {
         success: false,
-        message: "Telefone do cliente invalido.",
+        message: "Telefone do cliente inválido.",
         statusCode: 400
       };
     }
@@ -82,15 +82,15 @@ export class UpdateClientService {
     if (cpf && !isValidCpf(cpf)) {
       return {
         success: false,
-        message: "CPF do cliente invalido.",
+        message: "CPF do cliente inválido.",
         statusCode: 400
       };
     }
 
-    if (input.notes && !hasTextLengthBetween(notes, 3, INPUT_LIMITS.notes)) {
+    if (notes && !hasTextLengthBetween(notes, 3, INPUT_LIMITS.notes)) {
       return {
         success: false,
-        message: "As observacoes do cliente devem ter entre 3 e 500 caracteres.",
+        message: "As observações do cliente devem ter entre 3 e 500 caracteres.",
         statusCode: 400
       };
     }
@@ -107,7 +107,7 @@ export class UpdateClientService {
       if (!updatedClient) {
         return {
           success: false,
-          message: "Cliente nao encontrado.",
+          message: "Cliente não encontrado.",
           statusCode: 404
         };
       }
@@ -123,7 +123,7 @@ export class UpdateClientService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Dados de cliente invalidos.",
+          message: "Dados de cliente inválidos.",
           statusCode: 400
         };
       }
@@ -132,5 +132,6 @@ export class UpdateClientService {
     }
   }
 }
+
 
 

@@ -1,4 +1,4 @@
-import {
+﻿import {
   CreateUserInputDto,
   CreateUserResponseDto,
   PublicUserDto,
@@ -34,7 +34,7 @@ export class CreateUserService {
     if (!name || !email || !cpf || !password) {
       return {
         success: false,
-        message: "Nome, e-mail, CPF e senha sao obrigatorios.",
+        message: "Nome, e-mail, CPF e senha são obrigatórios.",
         statusCode: 400,
       };
     }
@@ -42,7 +42,7 @@ export class CreateUserService {
     if (!isValidEmail(email)) {
       return {
         success: false,
-        message: "Formato de e-mail invalido.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400,
       };
     }
@@ -50,7 +50,7 @@ export class CreateUserService {
     if (!hasTextLengthBetween(name, 2, INPUT_LIMITS.name)) {
       return {
         success: false,
-        message: "O nome do usuario deve ter entre 2 e 120 caracteres.",
+        message: "O nome do usuário deve ter entre 2 e 120 caracteres.",
         statusCode: 400,
       };
     }
@@ -58,7 +58,7 @@ export class CreateUserService {
     if (email.length > INPUT_LIMITS.email) {
       return {
         success: false,
-        message: "Formato de e-mail invalido.",
+        message: "Formato de e-mail inválido.",
         statusCode: 400,
       };
     }
@@ -66,7 +66,7 @@ export class CreateUserService {
     if (!isValidCpf(cpf)) {
       return {
         success: false,
-        message: "CPF invalido.",
+        message: "CPF inválido.",
         statusCode: 400,
       };
     }
@@ -94,7 +94,7 @@ export class CreateUserService {
     if (existingUser) {
       return {
         success: false,
-        message: "E-mail ja esta em uso.",
+        message: "E-mail já está em uso.",
         statusCode: 409,
       };
     }
@@ -104,7 +104,7 @@ export class CreateUserService {
     if (existingCpfUser) {
       return {
         success: false,
-        message: "CPF ja esta em uso.",
+        message: "CPF já está em uso.",
         statusCode: 409,
       };
     }
@@ -120,7 +120,7 @@ export class CreateUserService {
       return {
         success: true,
         data: {
-          message: "Usuario cadastrado com sucesso.",
+          message: "Usuário cadastrado com sucesso.",
           user: this.toPublicUser(createdUser),
         },
       };
@@ -136,7 +136,7 @@ export class CreateUserService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Dados de usuario invalidos.",
+          message: "Dados de usuário inválidos.",
           statusCode: 400,
         };
       }
@@ -158,15 +158,16 @@ export class CreateUserService {
     const fields = error.errors.map((item) => item.path);
 
     if (fields.includes("email")) {
-      return "E-mail ja esta em uso.";
+      return "E-mail já está em uso.";
     }
 
     if (fields.includes("cpf")) {
-      return "CPF ja esta em uso.";
+      return "CPF já está em uso.";
     }
 
     return "Os dados do usuario entram em conflito com um registro existente.";
   }
 }
+
 
 

@@ -1,4 +1,4 @@
-import { ServiceRepository } from "../repositories/service.repository";
+﻿import { ServiceRepository } from "../repositories/service.repository";
 
 type DeleteServiceResponseDto = {
   message: string;
@@ -22,7 +22,7 @@ export class DeleteServiceService {
     if (!id) {
       return {
         success: false,
-        message: "Id do servico e obrigatorio.",
+        message: "Id do serviço é obrigatório.",
         statusCode: 400,
       };
     }
@@ -32,7 +32,7 @@ export class DeleteServiceService {
     if (!deleted) {
       return {
         success: false,
-        message: "Servico nao encontrado.",
+        message: "Serviço não encontrado.",
         statusCode: 404,
       };
     }
@@ -40,8 +40,9 @@ export class DeleteServiceService {
     return {
       success: true,
       data: {
-        message: "Servico excluido com sucesso.",
+        message: "Serviço excluído com sucesso.",
       },
     };
   }
 }
+

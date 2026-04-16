@@ -1,4 +1,4 @@
-import { ProfessionalWorkDayDto } from "../dtos/professional.dto";
+﻿import { ProfessionalWorkDayDto } from "../dtos/professional.dto";
 import { ProfessionalRepository } from "../repositories/professional.repository";
 
 type ListProfessionalWorkDaysResponseDto = {
@@ -23,7 +23,7 @@ export class ListProfessionalWorkDaysService {
     if (!professionalId) {
       return {
         success: false,
-        message: "Id do profissional e obrigatorio.",
+        message: "Id do profissional é obrigatório.",
         statusCode: 400,
       };
     }
@@ -33,7 +33,7 @@ export class ListProfessionalWorkDaysService {
     if (workDays === null) {
       return {
         success: false,
-        message: "Profissional nao encontrado.",
+        message: "Profissional não encontrado.",
         statusCode: 404,
       };
     }
@@ -46,3 +46,4 @@ export class ListProfessionalWorkDaysService {
     };
   }
 }
+

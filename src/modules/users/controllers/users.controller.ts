@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+﻿import { Request, Response } from "express";
 
 import { CreateUserService } from "../services/create-user.service";
 import { UpdateUserProfileService } from "../services/update-user-profile.service";
@@ -24,7 +24,7 @@ export class UsersController {
       console.error("User registration request failed.", error);
 
       return response.status(500).json({
-        message: "Nao foi possivel processar o cadastro de usuario agora.",
+        message: "Não foi possível processar o cadastro de usuário agora.",
       });
     }
   }
@@ -50,7 +50,7 @@ export class UsersController {
       console.error("User profile update request failed.", error);
 
       return response.status(500).json({
-        message: "Nao foi possivel processar a atualizacao do perfil agora.",
+        message: "Não foi possível processar a atualização do perfil agora.",
       });
     }
   }
@@ -83,5 +83,6 @@ export class UsersController {
     return response.status(statusCode).json({ message });
   }
 }
+
 
 

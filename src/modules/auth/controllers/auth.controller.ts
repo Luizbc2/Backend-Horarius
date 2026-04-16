@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+﻿import { Request, Response } from "express";
 
 import { LoginService } from "../services/login.service";
 
@@ -25,9 +25,10 @@ export class AuthController {
       console.error("Login request failed.", error);
 
       return response.status(500).json({
-        message: "Nao foi possivel processar o login agora."
+        message: "Não foi possível processar o login agora."
       });
     }
   }
 }
+
 

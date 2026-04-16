@@ -1,4 +1,4 @@
-import { AppointmentRepository } from "../repositories/appointment.repository";
+﻿import { AppointmentRepository } from "../repositories/appointment.repository";
 
 type DeleteAppointmentResponseDto = {
   message: string;
@@ -22,7 +22,7 @@ export class DeleteAppointmentService {
     if (!id) {
       return {
         success: false,
-        message: "Id do agendamento e obrigatorio.",
+        message: "Id do agendamento é obrigatório.",
         statusCode: 400,
       };
     }
@@ -32,7 +32,7 @@ export class DeleteAppointmentService {
     if (!deleted) {
       return {
         success: false,
-        message: "Agendamento nao encontrado.",
+        message: "Agendamento não encontrado.",
         statusCode: 404,
       };
     }
@@ -45,3 +45,4 @@ export class DeleteAppointmentService {
     };
   }
 }
+

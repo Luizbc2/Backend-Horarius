@@ -1,4 +1,4 @@
-import { ClientDto } from "../dtos/client.dto";
+﻿import { ClientDto } from "../dtos/client.dto";
 import { ClientRepository } from "../repositories/client.repository";
 
 type GetClientResponseDto = {
@@ -23,7 +23,7 @@ export class GetClientService {
     if (!id) {
       return {
         success: false,
-        message: "Id do cliente e obrigatorio.",
+        message: "Id do cliente é obrigatório.",
         statusCode: 400,
       };
     }
@@ -33,7 +33,7 @@ export class GetClientService {
     if (!client) {
       return {
         success: false,
-        message: "Cliente nao encontrado.",
+        message: "Cliente não encontrado.",
         statusCode: 404,
       };
     }
@@ -46,3 +46,4 @@ export class GetClientService {
     };
   }
 }
+

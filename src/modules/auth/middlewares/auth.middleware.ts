@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+﻿import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 import { env } from "../../../config/env";
@@ -23,7 +23,7 @@ export const authenticate = (request: Request, response: Response, next: NextFun
 
   if (!token) {
     return response.status(401).json({
-      message: "O token de autenticacao e obrigatorio.",
+      message: "O token de autenticação é obrigatório.",
     });
   }
 
@@ -34,8 +34,9 @@ export const authenticate = (request: Request, response: Response, next: NextFun
     return next();
   } catch {
     return response.status(401).json({
-      message: "Token invalido ou expirado.",
+      message: "Token inválido ou expirado.",
     });
   }
 };
+
 

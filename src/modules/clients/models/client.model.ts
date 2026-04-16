@@ -31,10 +31,7 @@ export class ClientModel extends Model<InferAttributes<ClientModel>, InferCreati
         },
         email: {
           type: DataTypes.STRING,
-          allowNull: false,
-          validate: {
-            isEmail: true
-          }
+          allowNull: false
         },
         phone: {
           type: DataTypes.STRING,

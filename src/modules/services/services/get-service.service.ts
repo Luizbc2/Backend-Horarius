@@ -1,4 +1,4 @@
-import { ServiceDto } from "../dtos/service.dto";
+﻿import { ServiceDto } from "../dtos/service.dto";
 import { ServiceRepository } from "../repositories/service.repository";
 
 type GetServiceResponseDto = {
@@ -23,7 +23,7 @@ export class GetServiceService {
     if (!id) {
       return {
         success: false,
-        message: "Id do servico e obrigatorio.",
+        message: "Id do serviço é obrigatório.",
         statusCode: 400,
       };
     }
@@ -33,7 +33,7 @@ export class GetServiceService {
     if (!service) {
       return {
         success: false,
-        message: "Servico nao encontrado.",
+        message: "Serviço não encontrado.",
         statusCode: 404,
       };
     }
@@ -46,3 +46,4 @@ export class GetServiceService {
     };
   }
 }
+

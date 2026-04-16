@@ -1,4 +1,4 @@
-import { ForeignKeyConstraintError, ValidationError } from "sequelize";
+﻿import { ForeignKeyConstraintError, ValidationError } from "sequelize";
 
 import {
   AppointmentDto,
@@ -45,7 +45,7 @@ export class CreateAppointmentService {
     if (!clientId || !professionalId || !serviceId || !scheduledAt || !status) {
       return {
         success: false,
-        message: "Cliente, profissional, servico, horario e status sao obrigatorios.",
+        message: "Cliente, profissional, serviço, horário e status são obrigatórios.",
         statusCode: 400,
       };
     }
@@ -53,7 +53,7 @@ export class CreateAppointmentService {
     if (!this.isValidStatus(status)) {
       return {
         success: false,
-        message: "Status do agendamento invalido.",
+        message: "Status do agendamento inválido.",
         statusCode: 400,
       };
     }
@@ -61,7 +61,7 @@ export class CreateAppointmentService {
     if (Number.isNaN(Date.parse(scheduledAt))) {
       return {
         success: false,
-        message: "Horario do agendamento invalido.",
+        message: "Horário do agendamento inválido.",
         statusCode: 400,
       };
     }
@@ -69,7 +69,7 @@ export class CreateAppointmentService {
     if (!isPositiveInteger(clientId) || !isPositiveInteger(professionalId) || !isPositiveInteger(serviceId)) {
       return {
         success: false,
-        message: "Cliente, profissional e servico precisam ser identificadores validos.",
+        message: "Cliente, profissional e serviço precisam ser identificadores válidos.",
         statusCode: 400,
       };
     }
@@ -77,7 +77,7 @@ export class CreateAppointmentService {
     if (input.notes && !hasTextLengthBetween(notes, 3, INPUT_LIMITS.notes)) {
       return {
         success: false,
-        message: "As observacoes do agendamento devem ter entre 3 e 500 caracteres.",
+        message: "As observações do agendamento devem ter entre 3 e 500 caracteres.",
         statusCode: 400,
       };
     }
@@ -103,7 +103,7 @@ export class CreateAppointmentService {
       if (error instanceof ForeignKeyConstraintError) {
         return {
           success: false,
-          message: "Cliente, profissional ou servico informado nao existe.",
+          message: "Cliente, profissional ou serviço informado não existe.",
           statusCode: 400,
         };
       }
@@ -111,7 +111,7 @@ export class CreateAppointmentService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Dados do agendamento sao invalidos.",
+          message: "Dados do agendamento são inválidos.",
           statusCode: 400,
         };
       }
@@ -124,3 +124,4 @@ export class CreateAppointmentService {
     return VALID_STATUSES.includes(status);
   }
 }
+

@@ -1,4 +1,4 @@
-import { ValidationError } from "sequelize";
+﻿import { ValidationError } from "sequelize";
 
 import {
   hasTextLengthBetween,
@@ -37,10 +37,10 @@ export class UpdateServiceService {
     const durationMinutes = Number(input.durationMinutes);
     const price = Number(input.price);
 
-    if (!id || !name || !category || !description || !durationMinutes || Number.isNaN(price)) {
+    if (!id || !name || !category || !durationMinutes || Number.isNaN(price)) {
       return {
         success: false,
-        message: "Id, nome, categoria, duracao, preco e descricao sao obrigatorios.",
+        message: "Id, nome, categoria, duração e preço são obrigatórios.",
         statusCode: 400,
       };
     }
@@ -48,7 +48,7 @@ export class UpdateServiceService {
     if (!hasTextLengthBetween(name, 2, INPUT_LIMITS.name)) {
       return {
         success: false,
-        message: "O nome do servico deve ter entre 2 e 120 caracteres.",
+        message: "O nome do serviço deve ter entre 2 e 120 caracteres.",
         statusCode: 400,
       };
     }
@@ -56,15 +56,15 @@ export class UpdateServiceService {
     if (!hasTextLengthBetween(category, 2, INPUT_LIMITS.category)) {
       return {
         success: false,
-        message: "A categoria do servico deve ter entre 2 e 80 caracteres.",
+        message: "A categoria do serviço deve ter entre 2 e 80 caracteres.",
         statusCode: 400,
       };
     }
 
-    if (!hasTextLengthBetween(description, 5, INPUT_LIMITS.description)) {
+    if (description && !hasTextLengthBetween(description, 5, INPUT_LIMITS.description)) {
       return {
         success: false,
-        message: "A descricao do servico deve ter entre 5 e 500 caracteres.",
+        message: "A descrição do serviço deve ter entre 5 e 500 caracteres.",
         statusCode: 400,
       };
     }
@@ -72,7 +72,7 @@ export class UpdateServiceService {
     if (!isPositiveInteger(durationMinutes, 1440)) {
       return {
         success: false,
-        message: "A duracao do servico deve ser um numero inteiro entre 1 e 1440.",
+        message: "A duração do serviço deve ser um número inteiro entre 1 e 1440.",
         statusCode: 400,
       };
     }
@@ -80,7 +80,7 @@ export class UpdateServiceService {
     if (!isNonNegativeAmount(price, 99999.99)) {
       return {
         success: false,
-        message: "O preco do servico deve ser um valor entre 0 e 99999.99.",
+        message: "O preço do serviço deve ser um valor entre 0 e 99999.99.",
         statusCode: 400,
       };
     }
@@ -97,7 +97,7 @@ export class UpdateServiceService {
       if (!updatedService) {
         return {
           success: false,
-          message: "Servico nao encontrado.",
+          message: "Serviço não encontrado.",
           statusCode: 404,
         };
       }
@@ -105,7 +105,7 @@ export class UpdateServiceService {
       return {
         success: true,
         data: {
-          message: "Servico atualizado com sucesso.",
+          message: "Serviço atualizado com sucesso.",
           service: updatedService,
         },
       };
@@ -113,7 +113,7 @@ export class UpdateServiceService {
       if (error instanceof ValidationError) {
         return {
           success: false,
-          message: "Dados do servico sao invalidos.",
+          message: "Dados do serviço são inválidos.",
           statusCode: 400,
         };
       }
@@ -122,3 +122,4 @@ export class UpdateServiceService {
     }
   }
 }
+

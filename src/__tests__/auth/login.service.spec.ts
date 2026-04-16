@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+﻿import jwt from "jsonwebtoken";
 
 import { env } from "../../config/env";
 import { LoginService } from "../../modules/auth/services/login.service";
@@ -16,7 +16,7 @@ describe("LoginService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "E-mail e senha sao obrigatorios.",
+      message: "E-mail e senha são obrigatórios.",
       statusCode: 400,
     });
   });
@@ -31,12 +31,12 @@ describe("LoginService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "Formato de e-mail invalido.",
+      message: "Formato de e-mail inválido.",
       statusCode: 400,
     });
   });
 
-  it("nao autentica usuario inexistente", async () => {
+  it("não autentica usuário inexistente", async () => {
     const service = new LoginService(new InMemoryUserRepository());
 
     const result = await service.execute({
@@ -46,12 +46,12 @@ describe("LoginService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "E-mail ou senha invalidos.",
+      message: "E-mail ou senha inválidos.",
       statusCode: 401,
     });
   });
 
-  it("nao autentica quando a senha estiver errada", async () => {
+  it("não autentica quando a senha estiver errada", async () => {
     const repository = new InMemoryUserRepository({
       users: [
         {
@@ -72,7 +72,7 @@ describe("LoginService", () => {
 
     expect(result).toEqual({
       success: false,
-      message: "E-mail ou senha invalidos.",
+      message: "E-mail ou senha inválidos.",
       statusCode: 401,
     });
   });
@@ -115,3 +115,4 @@ describe("LoginService", () => {
     expect(decoded.email).toBe("ADMIN@horarius.com");
   });
 });
+
