@@ -1,6 +1,6 @@
 # Backend Horarius
 
-Base inicial do backend em Node.js com TypeScript, Express, Sequelize e PostgreSQL.
+Backend academico do projeto Horarius desenvolvido com Node.js, TypeScript, Express, Sequelize e PostgreSQL.
 
 ## Stack
 
@@ -9,18 +9,41 @@ Base inicial do backend em Node.js com TypeScript, Express, Sequelize e PostgreS
 - Express
 - Sequelize
 - PostgreSQL
+- JWT
+- `scrypt` para hash de senha
+- `node:test` para testes automatizados
 
-## Estrutura atual
+## O que ja cobre
 
-- servidor Express configurado
-- CORS liberado para o front
-- conexao com PostgreSQL via Sequelize
-- tabela `users` sincronizada no startup
-- seed inicial de usuario para autenticacao
-- senha armazenada com hash `scrypt`
-- validacao de e-mail no login
-- retorno JWT no login
-- rota `GET /api/health`
+- login com e-mail e senha
+- senha criptografada no banco
+- validacao de e-mail
+- retorno de JWT
+- cadastro de usuario com nome, e-mail, CPF e senha
+- validacao de CPF
+- validacao de forca da senha
+- edicao do proprio perfil com rota autenticada
+- bloqueio de alteracao de e-mail
+- CRUD autenticado de clientes
+- CRUD autenticado de servicos
+- CRUD autenticado de profissionais
+- horarios semanais de profissionais
+- CRUD autenticado de agendamentos
+- paginacao nas listagens
+- relacionamento entre agendamento, cliente, profissional e servico
+
+## Estrutura
+
+O projeto esta organizado em camadas:
+
+- `config`
+- `controllers`
+- `modules`
+- `repositories`
+- `routes`
+- `services`
+- `shared`
+- `test`
 
 ## Como rodar
 
@@ -28,12 +51,62 @@ Base inicial do backend em Node.js com TypeScript, Express, Sequelize e PostgreS
 2. Crie o arquivo `.env` com base em `.env.example`
 3. Rode em desenvolvimento com `npm run dev`
 
-## Rotas atuais
+Para build de producao:
+
+```bash
+npm run build
+npm start
+```
+
+## Testes
+
+Rodar a suite automatizada:
+
+```bash
+npm test
+```
+
+Hoje a suite cobre:
+
+- autenticacao
+- usuario
+- clientes
+- servicos
+- profissionais
+- horarios de profissionais
+- agendamentos
+
+## Rotas principais
 
 - `GET /api/health`
 - `POST /api/auth/login`
+- `POST /api/users`
+- `PUT /api/users/me`
+- `GET /api/clients`
+- `GET /api/clients/:id`
+- `POST /api/clients`
+- `PUT /api/clients/:id`
+- `DELETE /api/clients/:id`
+- `GET /api/services`
+- `GET /api/services/:id`
+- `POST /api/services`
+- `PUT /api/services/:id`
+- `DELETE /api/services/:id`
+- `GET /api/professionals`
+- `GET /api/professionals/:id`
+- `POST /api/professionals`
+- `PUT /api/professionals/:id`
+- `DELETE /api/professionals/:id`
+- `GET /api/professionals/:id/work-days`
+- `PUT /api/professionals/:id/work-days`
+- `GET /api/appointments`
+- `POST /api/appointments`
+- `PUT /api/appointments/:id`
+- `DELETE /api/appointments/:id`
 
-Corpo esperado para login:
+## Exemplo de login
+
+Corpo:
 
 ```json
 {
@@ -42,11 +115,11 @@ Corpo esperado para login:
 }
 ```
 
-Resposta de sucesso:
+Resposta:
 
 ```json
 {
-  "message": "Login successful.",
+  "message": "Login realizado com sucesso.",
   "token": "jwt_token_here",
   "user": {
     "id": 1,
@@ -59,5 +132,6 @@ Resposta de sucesso:
 
 ## Observacoes
 
-- o usuario inicial de autenticacao e criado a partir das variaveis `AUTH_USER_*`
+- o usuario seed de autenticacao e criado a partir das variaveis `AUTH_USER_*`
 - o token JWT usa `JWT_SECRET` e `JWT_EXPIRES_IN`
+- o Sequelize sincroniza as tabelas no startup
