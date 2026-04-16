@@ -3,6 +3,7 @@ import { UniqueConstraintError, ValidationError } from "sequelize";
 import { PublicUserDto } from "../dtos/create-user.dto";
 import { UpdateUserProfileInput, UserRepository } from "../../auth/repositories/user.repository";
 import { isValidCpf, normalizeCpf } from "../../../shared/utils/cpf.util";
+import { hasTextLengthBetween, INPUT_LIMITS, normalizeSingleLineText } from "../../../shared/utils/input-validation.util";
 import { validatePasswordStrength } from "../../../shared/utils/password-strength.util";
 import { hashPassword } from "../../auth/utils/password.util";
 
@@ -32,7 +33,7 @@ export class UpdateUserProfileService {
   constructor(private readonly userRepository: UserRepository) {}
 
   public async execute(input: UpdateUserProfileServiceInput): Promise<UpdateUserProfileServiceResult> {
-    const name = input.name.trim();
+    const name = normalizeSingleLineText(input.name, INPUT_LIMITS.name);
     const cpf = normalizeCpf(input.cpf);
     const password = input.password.trim();
 
@@ -70,10 +71,26 @@ export class UpdateUserProfileService {
       };
     }
 
+    if (!hasTextLengthBetween(name, 2, INPUT_LIMITS.name)) {
+      return {
+        success: false,
+        message: "O nome do usuario deve ter entre 2 e 120 caracteres.",
+        statusCode: 400,
+      };
+    }
+
     if (!isValidCpf(cpf)) {
       return {
         success: false,
         message: "CPF invalido.",
+        statusCode: 400,
+      };
+    }
+
+    if (password.length > INPUT_LIMITS.password) {
+      return {
+        success: false,
+        message: `A senha deve ter no maximo ${INPUT_LIMITS.password} caracteres.`,
         statusCode: 400,
       };
     }

@@ -1,6 +1,15 @@
 import { ValidationError } from "sequelize";
 
+import { isValidCpf, normalizeCpf } from "../../../shared/utils/cpf.util";
 import { isValidEmail } from "../../../shared/utils/email.util";
+import {
+  hasTextLengthBetween,
+  INPUT_LIMITS,
+  isValidPhone,
+  normalizeMultiLineText,
+  normalizePhone,
+  normalizeSingleLineText,
+} from "../../../shared/utils/input-validation.util";
 import { ClientDto, UpdateClientRequestDto } from "../dtos/client.dto";
 import { ClientRepository } from "../repositories/client.repository";
 
@@ -24,11 +33,11 @@ export class UpdateClientService {
   constructor(private readonly clientRepository: ClientRepository) {}
 
   public async execute(id: number, input: UpdateClientRequestDto): Promise<UpdateClientServiceResult> {
-    const name = input.name.trim();
+    const name = normalizeSingleLineText(input.name, INPUT_LIMITS.clientName);
     const email = input.email.trim().toLowerCase();
-    const phone = input.phone.trim();
-    const cpf = input.cpf?.trim() ?? "";
-    const notes = input.notes.trim();
+    const phone = normalizePhone(input.phone);
+    const cpf = normalizeCpf(input.cpf ?? "");
+    const notes = normalizeMultiLineText(input.notes, INPUT_LIMITS.notes);
 
     if (!id || !name || !email || !phone) {
       return {
@@ -42,6 +51,46 @@ export class UpdateClientService {
       return {
         success: false,
         message: "Formato de e-mail invalido.",
+        statusCode: 400
+      };
+    }
+
+    if (!hasTextLengthBetween(name, 2, INPUT_LIMITS.clientName)) {
+      return {
+        success: false,
+        message: "O nome do cliente deve ter entre 2 e 120 caracteres.",
+        statusCode: 400
+      };
+    }
+
+    if (email.length > INPUT_LIMITS.email) {
+      return {
+        success: false,
+        message: "Formato de e-mail invalido.",
+        statusCode: 400
+      };
+    }
+
+    if (!isValidPhone(phone)) {
+      return {
+        success: false,
+        message: "Telefone do cliente invalido.",
+        statusCode: 400
+      };
+    }
+
+    if (cpf && !isValidCpf(cpf)) {
+      return {
+        success: false,
+        message: "CPF do cliente invalido.",
+        statusCode: 400
+      };
+    }
+
+    if (input.notes && !hasTextLengthBetween(notes, 3, INPUT_LIMITS.notes)) {
+      return {
+        success: false,
+        message: "As observacoes do cliente devem ter entre 3 e 500 caracteres.",
         statusCode: 400
       };
     }

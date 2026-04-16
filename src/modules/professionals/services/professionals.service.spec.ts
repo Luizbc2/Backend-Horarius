@@ -58,6 +58,25 @@ test("UpdateProfessionalService rejects invalid email", async () => {
   });
 });
 
+test("CreateProfessionalService rejects invalid phone", async () => {
+  const repository = new InMemoryProfessionalRepository();
+  const service = new CreateProfessionalService(repository);
+
+  const result = await service.execute({
+    name: "Joao Silva",
+    email: "joao@email.com",
+    phone: "123",
+    specialty: "Corte",
+    status: "ativo",
+  });
+
+  expect(result).toEqual({
+    success: false,
+    message: "Telefone do profissional invalido.",
+    statusCode: 400,
+  });
+});
+
 test("ListProfessionalsService paginates and filters professionals", async () => {
   const repository = new InMemoryProfessionalRepository({
     professionals: [

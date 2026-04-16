@@ -49,6 +49,26 @@ test("CreateAppointmentService rejects invalid scheduledAt", async () => {
   });
 });
 
+test("CreateAppointmentService rejects oversized notes", async () => {
+  const repository = new InMemoryAppointmentRepository();
+  const service = new CreateAppointmentService(repository);
+
+  const result = await service.execute({
+    clientId: 1,
+    professionalId: 2,
+    serviceId: 3,
+    scheduledAt: "2026-04-15T09:30:00.000Z",
+    status: "confirmado",
+    notes: "a".repeat(501),
+  });
+
+  expect(result).toEqual({
+    success: false,
+    message: "As observacoes do agendamento devem ter entre 3 e 500 caracteres.",
+    statusCode: 400,
+  });
+});
+
 test("ListAppointmentsService filters by date, professional and status", async () => {
   const repository = new InMemoryAppointmentRepository({
     appointments: [

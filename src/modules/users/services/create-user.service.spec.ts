@@ -71,3 +71,21 @@ test("CreateUserService rejects weak password", async () => {
     statusCode: 400,
   });
 });
+
+test("CreateUserService rejects names shorter than two characters", async () => {
+  const repository = new InMemoryUserRepository();
+  const service = new CreateUserService(repository);
+
+  const result = await service.execute({
+    name: "L",
+    email: "luiz@horarius.com",
+    cpf: "52998224725",
+    password: "Senha123",
+  });
+
+  expect(result).toEqual({
+    success: false,
+    message: "O nome do usuario deve ter entre 2 e 120 caracteres.",
+    statusCode: 400,
+  });
+});

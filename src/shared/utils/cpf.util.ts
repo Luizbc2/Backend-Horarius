@@ -1,4 +1,4 @@
-export const normalizeCpf = (value: string): string => value.replace(/\D/g, "").slice(0, 11);
+export const normalizeCpf = (value: string): string => value.replace(/\D/g, "");
 
 export const isValidCpf = (value: string): boolean => {
   const cpf = normalizeCpf(value);

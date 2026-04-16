@@ -52,7 +52,7 @@ describe("Protected CRUD integration", () => {
         name: "Maria Clara",
         email: "maria@email.com",
         phone: "11999999999",
-        cpf: "12345678900",
+        cpf: "52998224725",
         notes: "cliente vip",
       });
 
@@ -82,7 +82,7 @@ describe("Protected CRUD integration", () => {
         name: "Maria Clara Souza",
         email: "maria@email.com",
         phone: "11888888888",
-        cpf: "12345678900",
+        cpf: "52998224725",
         notes: "cliente recorrente",
       });
 
@@ -183,11 +183,11 @@ describe("Protected CRUD integration", () => {
         email: "joao@email.com",
         phone: "11977777777",
         specialty: "Visagismo",
-        status: "inativo",
+        status: "ferias",
       });
 
     expect(updateProfessionalResponse.status).toBe(200);
-    expect(updateProfessionalResponse.body.professional.status).toBe("inativo");
+    expect(updateProfessionalResponse.body.professional.status).toBe("ferias");
 
     const deleteProfessionalResponse = await request(app)
       .delete(`/api/professionals/${professionalId}`)

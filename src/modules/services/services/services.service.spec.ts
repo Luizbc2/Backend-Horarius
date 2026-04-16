@@ -46,6 +46,25 @@ test("CreateServiceService rejects duration less than or equal to zero", async (
   });
 });
 
+test("CreateServiceService rejects negative price", async () => {
+  const repository = new InMemoryServiceRepository();
+  const service = new CreateServiceService(repository);
+
+  const result = await service.execute({
+    name: "Corte",
+    category: "Cabelo",
+    durationMinutes: 45,
+    price: -10,
+    description: "Corte tradicional",
+  });
+
+  expect(result).toEqual({
+    success: false,
+    message: "O preco do servico deve ser um valor entre 0 e 99999.99.",
+    statusCode: 400,
+  });
+});
+
 test("UpdateServiceService returns 404 when service does not exist", async () => {
   const repository = new InMemoryServiceRepository();
   const service = new UpdateServiceService(repository);

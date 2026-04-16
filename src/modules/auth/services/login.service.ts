@@ -3,6 +3,7 @@ import { UserRepository } from "../repositories/user.repository";
 import { comparePassword } from "../utils/password.util";
 import { generateAccessToken } from "../utils/jwt.util";
 import { isValidEmail } from "../../../shared/utils/email.util";
+import { INPUT_LIMITS } from "../../../shared/utils/input-validation.util";
 
 type ServiceResult<T> =
   | {
@@ -34,6 +35,22 @@ export class LoginService {
       return {
         success: false,
         message: "Formato de e-mail invalido.",
+        statusCode: 400,
+      };
+    }
+
+    if (email.length > INPUT_LIMITS.email) {
+      return {
+        success: false,
+        message: "Formato de e-mail invalido.",
+        statusCode: 400,
+      };
+    }
+
+    if (password.length > INPUT_LIMITS.password) {
+      return {
+        success: false,
+        message: `A senha deve ter no maximo ${INPUT_LIMITS.password} caracteres.`,
         statusCode: 400,
       };
     }

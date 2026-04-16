@@ -7,6 +7,7 @@ import { UniqueConstraintError, ValidationError } from "sequelize";
 import { UserRepository } from "../../auth/repositories/user.repository";
 import { isValidEmail } from "../../../shared/utils/email.util";
 import { isValidCpf, normalizeCpf } from "../../../shared/utils/cpf.util";
+import { hasTextLengthBetween, INPUT_LIMITS, normalizeSingleLineText } from "../../../shared/utils/input-validation.util";
 import { validatePasswordStrength } from "../../../shared/utils/password-strength.util";
 import { hashPassword } from "../../auth/utils/password.util";
 
@@ -25,7 +26,7 @@ export class CreateUserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   public async execute(input: CreateUserInputDto): Promise<CreateUserServiceResult> {
-    const name = input.name.trim();
+    const name = normalizeSingleLineText(input.name, INPUT_LIMITS.name);
     const email = input.email.trim().toLowerCase();
     const cpf = normalizeCpf(input.cpf);
     const password = input.password.trim();
@@ -46,10 +47,34 @@ export class CreateUserService {
       };
     }
 
+    if (!hasTextLengthBetween(name, 2, INPUT_LIMITS.name)) {
+      return {
+        success: false,
+        message: "O nome do usuario deve ter entre 2 e 120 caracteres.",
+        statusCode: 400,
+      };
+    }
+
+    if (email.length > INPUT_LIMITS.email) {
+      return {
+        success: false,
+        message: "Formato de e-mail invalido.",
+        statusCode: 400,
+      };
+    }
+
     if (!isValidCpf(cpf)) {
       return {
         success: false,
         message: "CPF invalido.",
+        statusCode: 400,
+      };
+    }
+
+    if (password.length > INPUT_LIMITS.password) {
+      return {
+        success: false,
+        message: `A senha deve ter no maximo ${INPUT_LIMITS.password} caracteres.`,
         statusCode: 400,
       };
     }

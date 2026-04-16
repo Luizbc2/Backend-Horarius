@@ -5,6 +5,12 @@ import {
   AppointmentStatus,
   UpdateAppointmentRequestDto,
 } from "../dtos/appointment.dto";
+import {
+  hasTextLengthBetween,
+  INPUT_LIMITS,
+  isPositiveInteger,
+  normalizeMultiLineText,
+} from "../../../shared/utils/input-validation.util";
 import { AppointmentRepository } from "../repositories/appointment.repository";
 
 type UpdateAppointmentResponseDto = {
@@ -37,7 +43,7 @@ export class UpdateAppointmentService {
     const serviceId = Number(input.serviceId);
     const scheduledAt = input.scheduledAt?.trim();
     const status = input.status?.trim().toLowerCase() as AppointmentStatus;
-    const notes = input.notes?.trim() ?? "";
+    const notes = normalizeMultiLineText(input.notes, INPUT_LIMITS.notes);
 
     if (!id || !clientId || !professionalId || !serviceId || !scheduledAt || !status) {
       return {
@@ -59,6 +65,22 @@ export class UpdateAppointmentService {
       return {
         success: false,
         message: "Horario do agendamento invalido.",
+        statusCode: 400,
+      };
+    }
+
+    if (!isPositiveInteger(clientId) || !isPositiveInteger(professionalId) || !isPositiveInteger(serviceId)) {
+      return {
+        success: false,
+        message: "Cliente, profissional e servico precisam ser identificadores validos.",
+        statusCode: 400,
+      };
+    }
+
+    if (input.notes && !hasTextLengthBetween(notes, 3, INPUT_LIMITS.notes)) {
+      return {
+        success: false,
+        message: "As observacoes do agendamento devem ter entre 3 e 500 caracteres.",
         statusCode: 400,
       };
     }

@@ -11,7 +11,7 @@ test("CreateClientService creates a client with normalized email", async () => {
     name: "  Maria Clara  ",
     email: "  MARIA@EMAIL.COM ",
     phone: "11999999999",
-    cpf: "12345678900",
+    cpf: "52998224725",
     notes: "cliente vip",
   });
 
@@ -41,6 +41,25 @@ test("CreateClientService rejects invalid email", async () => {
   expect(result).toEqual({
     success: false,
     message: "Formato de e-mail invalido.",
+    statusCode: 400,
+  });
+});
+
+test("CreateClientService rejects invalid phone", async () => {
+  const repository = new InMemoryClientRepository();
+  const service = new CreateClientService(repository);
+
+  const result = await service.execute({
+    name: "Maria Clara",
+    email: "maria@email.com",
+    phone: "abc",
+    cpf: "",
+    notes: "",
+  });
+
+  expect(result).toEqual({
+    success: false,
+    message: "Telefone do cliente invalido.",
     statusCode: 400,
   });
 });
