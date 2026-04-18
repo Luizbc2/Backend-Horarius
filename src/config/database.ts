@@ -44,6 +44,22 @@ class Database {
     ProfessionalWorkDayModel.initialize(this.getConnection());
     AppointmentModel.initialize(this.getConnection());
 
+    UserModel.hasMany(ClientModel, {
+      foreignKey: "userId",
+      as: "clients",
+    });
+    UserModel.hasMany(ServiceModel, {
+      foreignKey: "userId",
+      as: "services",
+    });
+    UserModel.hasMany(ProfessionalModel, {
+      foreignKey: "userId",
+      as: "professionals",
+    });
+    UserModel.hasMany(AppointmentModel, {
+      foreignKey: "userId",
+      as: "appointments",
+    });
     ClientModel.hasMany(AppointmentModel, {
       foreignKey: "clientId",
       as: "appointments",
@@ -61,6 +77,22 @@ class Database {
       as: "appointments",
     });
 
+    ClientModel.belongsTo(UserModel, {
+      foreignKey: "userId",
+      as: "user",
+    });
+    ServiceModel.belongsTo(UserModel, {
+      foreignKey: "userId",
+      as: "user",
+    });
+    ProfessionalModel.belongsTo(UserModel, {
+      foreignKey: "userId",
+      as: "user",
+    });
+    AppointmentModel.belongsTo(UserModel, {
+      foreignKey: "userId",
+      as: "user",
+    });
     AppointmentModel.belongsTo(ClientModel, {
       foreignKey: "clientId",
       as: "client",

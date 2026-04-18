@@ -12,6 +12,7 @@ export class AppointmentModel extends Model<
   InferCreationAttributes<AppointmentModel>
 > {
   declare id: CreationOptional<number>;
+  declare userId: number | null;
   declare clientId: number;
   declare professionalId: number;
   declare serviceId: number;
@@ -28,6 +29,16 @@ export class AppointmentModel extends Model<
           type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
+        },
+        userId: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          references: {
+            model: "users",
+            key: "id",
+          },
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
         },
         clientId: {
           type: DataTypes.INTEGER,
@@ -87,6 +98,11 @@ export class AppointmentModel extends Model<
         modelName: "Appointment",
         tableName: "appointments",
         timestamps: true,
+        indexes: [
+          {
+            fields: ["userId"],
+          },
+        ],
         hooks: {
           beforeValidate: (appointment) => {
             appointment.status = appointment.status.trim().toLowerCase();

@@ -14,6 +14,7 @@ export class ProfessionalModel extends Model<
   InferCreationAttributes<ProfessionalModel>
 > {
   declare id: CreationOptional<number>;
+  declare userId: number | null;
   declare name: string;
   declare email: string;
   declare phone: string;
@@ -30,6 +31,16 @@ export class ProfessionalModel extends Model<
           type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
+        },
+        userId: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          references: {
+            model: "users",
+            key: "id",
+          },
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
         },
         name: {
           type: DataTypes.STRING,
@@ -69,6 +80,11 @@ export class ProfessionalModel extends Model<
         modelName: "Professional",
         tableName: "professionals",
         timestamps: true,
+        indexes: [
+          {
+            fields: ["userId"],
+          },
+        ],
         hooks: {
           beforeValidate: (professional) => {
             professional.name = professional.name.trim();

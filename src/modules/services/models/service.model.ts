@@ -9,6 +9,7 @@ import {
 
 export class ServiceModel extends Model<InferAttributes<ServiceModel>, InferCreationAttributes<ServiceModel>> {
   declare id: CreationOptional<number>;
+  declare userId: number | null;
   declare name: string;
   declare category: string;
   declare durationMinutes: number;
@@ -24,6 +25,16 @@ export class ServiceModel extends Model<InferAttributes<ServiceModel>, InferCrea
           type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
+        },
+        userId: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          references: {
+            model: "users",
+            key: "id",
+          },
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL",
         },
         name: {
           type: DataTypes.STRING,
@@ -66,6 +77,11 @@ export class ServiceModel extends Model<InferAttributes<ServiceModel>, InferCrea
         modelName: "Service",
         tableName: "services",
         timestamps: true,
+        indexes: [
+          {
+            fields: ["userId"],
+          },
+        ],
         hooks: {
           beforeValidate: (service) => {
             service.name = service.name.trim();

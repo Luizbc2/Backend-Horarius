@@ -9,6 +9,7 @@ import {
 
 export class ClientModel extends Model<InferAttributes<ClientModel>, InferCreationAttributes<ClientModel>> {
   declare id: CreationOptional<number>;
+  declare userId: number | null;
   declare name: string;
   declare email: string;
   declare phone: string;
@@ -24,6 +25,16 @@ export class ClientModel extends Model<InferAttributes<ClientModel>, InferCreati
           type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true
+        },
+        userId: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+          references: {
+            model: "users",
+            key: "id"
+          },
+          onUpdate: "CASCADE",
+          onDelete: "SET NULL"
         },
         name: {
           type: DataTypes.STRING,
@@ -61,6 +72,11 @@ export class ClientModel extends Model<InferAttributes<ClientModel>, InferCreati
         modelName: "Client",
         tableName: "clients",
         timestamps: true,
+        indexes: [
+          {
+            fields: ["userId"]
+          }
+        ],
         hooks: {
           beforeValidate: (client) => {
             client.name = client.name.trim();
